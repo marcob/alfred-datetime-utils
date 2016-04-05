@@ -1,10 +1,11 @@
 #!/usr/bin/python
 # encoding: utf-8
 
-import sys
 from datetime import datetime
 from time import mktime
 from workflow import Workflow
+import time
+import sys
 
 class Item(object):
     def __init__(self, title, subtitle):
@@ -37,19 +38,41 @@ def string_to_date(arg):
 
     epoch_ts = mktime(date_struct)
     d = datetime.fromtimestamp(epoch_ts)
+    u = datetime.fromtimestamp(epoch_ts + get_utc_offset())
 
-    add_items([Item(str(epoch_ts), u'epoch'), Item(str(d), u'datetime'), Item(str(d.date()), u'date'), Item(str(d.time()), u'time')])
-
+    add_items([
+        Item(str(epoch_ts), u'epoch'),
+        Item(str(u), u'Datetime UTC'),
+        Item(str(u.date()), u'Date UTC'),
+        Item(str(u.time()), u'Time UTC'),
+        Item(str(d), u'Datetime LOCAL'),
+        Item(str(d.date()), u'Date LOCAL'),
+        Item(str(d.time()), u'Time LOCAL')
+    ])
 
 def epoch_to_date(epoch_time):
     d = datetime.fromtimestamp(epoch_time)
+    u = datetime.fromtimestamp(epoch_ts + get_utc_offset())
 
-    add_items([Item(str(d), u'datetime'), Item(str(d.date()), u'date'), Item(str(d.time()), u'time')])
-
+    add_items([
+        Item(str(u), u'Datetime UTC'),
+        Item(str(u.date()), u'Date UTC'),
+        Item(str(u.time()), u'Time UTC'),
+        Item(str(d), u'Datetime LOCAL'),
+        Item(str(d.date()), u'Date LOCAL'),
+        Item(str(d.time()), u'Time LOCAL')
+    ])
 
 def add_items(items):
     for item in items:
         wf.add_item(title = item.title, subtitle = item.subtitle, valid = True, arg = item.title, copytext = item.title)
+
+def get_utc_offset():
+    if time.daylight:
+        return time.altzone
+    else:
+        return time.timezone
+
 if __name__ == '__main__':
     wf = Workflow()
     sys.exit(wf.run(main))
