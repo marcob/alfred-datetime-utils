@@ -50,8 +50,8 @@ def string_to_date(arg):
         Item(str(d.time()), u'Time LOCAL')
     ])
 
-def epoch_to_date(epoch_time):
-    d = datetime.fromtimestamp(epoch_time)
+def epoch_to_date(epoch_ts):
+    d = datetime.fromtimestamp(epoch_ts)
     u = datetime.fromtimestamp(epoch_ts + get_utc_offset())
 
     add_items([
