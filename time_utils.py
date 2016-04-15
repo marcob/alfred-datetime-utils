@@ -19,7 +19,7 @@ def main(wf):
     args = wf.args
 
     try:
-        epoch_to_date(float(args[0]))
+        epoch_to_date(float(args[0][:10])) # ignore millis
     except ValueError:
         string_to_date(args[0])
         pass
