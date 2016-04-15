@@ -38,7 +38,7 @@ def string_to_date(arg):
 
     epoch_ts = mktime(date_struct)
     d = datetime.fromtimestamp(epoch_ts)
-    u = datetime.fromtimestamp(epoch_ts + get_utc_offset())
+    u = datetime.utcfromtimestamp(epoch_ts)
 
     add_items([
         Item(str(epoch_ts), u'epoch'),
@@ -52,7 +52,7 @@ def string_to_date(arg):
 
 def epoch_to_date(epoch_ts):
     d = datetime.fromtimestamp(epoch_ts)
-    u = datetime.fromtimestamp(epoch_ts + get_utc_offset())
+    u = datetime.utcfromtimestamp(epoch_ts)
 
     add_items([
         Item(str(u), u'Datetime UTC'),
@@ -66,12 +66,6 @@ def epoch_to_date(epoch_ts):
 def add_items(items):
     for item in items:
         wf.add_item(title = item.title, subtitle = item.subtitle, valid = True, arg = item.title, copytext = item.title)
-
-def get_utc_offset():
-    if time.daylight:
-        return time.altzone
-    else:
-        return time.timezone
 
 if __name__ == '__main__':
     wf = Workflow()
