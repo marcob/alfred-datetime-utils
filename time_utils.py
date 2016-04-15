@@ -17,11 +17,12 @@ def main(wf):
         return
 
     args = wf.args
+    input_str = args[0].strip()
 
     try:
-        epoch_to_date(float(args[0][:10])) # ignore millis
+        epoch_to_date(float(input_str[:10])) # ignore millis
     except ValueError:
-        string_to_date(args[0])
+        string_to_date(input_str)
         pass
 
     wf.send_feedback()
